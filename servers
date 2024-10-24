@@ -1,0 +1,46 @@
+APACHE
+dnf install httpd -y
+systemctl start httpd
+systemctl enable  --now httpd
+
+create app folder in /var/www/app-name
+
+sudo nano /etc/httpd/conf.d/app.conf
+
+<VirtualHost *:80>
+   ServerName app
+   DocumentRoot /var/www/app
+   ErrorLog /var/log/httpd/error.err
+   CustomLog /var/log/httpd/access.log combined
+</VirtualHost>
+
+httpd -t
+
+sudo systemctl restart httpd
+
+test in browser add on workstation /etc/hosts zapis <ip> server-name, this is used for test on workstation and with curl
+turn off firewall and selinux
+
+
+NGINX
+dnf install nginx -y
+systemctl start nginx
+systemctl enable --now nginx
+
+create app folder in /var/www/app-name
+sudo nano /etc/nginx/conf.d/app-name
+
+server {
+listen 80; 
+server_name app-name;
+root /var/www/app-name;
+access_log /var/log/nginx/access.log;
+error_log /var/log/nginx/error.log;
+}
+
+nginx -t – expect permission errors but it worked locally
+
+systemctl restart nginx
+
+test in browser add on workstation /etc/hosts zapis <ip> server-name, this is used for test on workstation and with curl
+turn off firewall and selinux
